@@ -7,6 +7,7 @@ export default function renderGameGround(data) {
       <h2 id="game-nickname-display">${data.nickname}</h2>
       <p>Tu rol es:</p>
       <h2 id="role-display">${data.role}</h2>
+      <h2 id="score-display">Puntuación: ${data.score || 0}</h2>
       <h2 id="shout-display"></h2>
       <div id="pool-players"></div>
       <button id="shout-button">Gritar ${data.role}</button>
@@ -19,6 +20,7 @@ export default function renderGameGround(data) {
   const shoutbtn = document.getElementById("shout-button");
   const shoutDisplay = document.getElementById("shout-display");
   const container = document.getElementById("pool-players");
+  const scoreDisplay = document.getElementById("score-display");
 
   if (myRole !== "marco") {
     shoutbtn.style.display = "none";
@@ -75,5 +77,34 @@ export default function renderGameGround(data) {
   // Keep socket.on listeners for game over notification
   socket.on("notifyGameOver", (data) => {
     navigateTo("/gameOver", { message: data.message, nickname });
+  });
+
+  // Listen for score updates
+  socket.on("scoresUpdated", (data) => {
+    const myPlayer = data.players.find((p) => p.nickname === nickname);
+    if (myPlayer && scoreDisplay) {
+      scoreDisplay.innerHTML = `Puntuación: ${myPlayer.score}`;
+    }
+  });
+
+  // Listen for game winner announcement
+  socket.on("gameWinner", (data) => {
+    navigateTo("/gameOver", {
+      message: `¡${data.winner} ha ganado el juego con ${
+        data.players.find((p) => p.nickname === data.winner)?.score || 0
+      } puntos!`,
+      nickname,
+      isWinner: true,
+      winner: data.winner,
+      players: data.players,
+    });
+  });
+
+  // Listen for scores reset
+  socket.on("scoresReset", (data) => {
+    const myPlayer = data.players.find((p) => p.nickname === nickname);
+    if (myPlayer && scoreDisplay) {
+      scoreDisplay.innerHTML = `Puntuación: ${myPlayer.score || 0}`;
+    }
   });
 }

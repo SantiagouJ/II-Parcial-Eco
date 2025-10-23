@@ -25,6 +25,26 @@ export default function renderScreen1() {
     updatePlayersList();
   });
 
+  socket.on("scoresUpdated", (data) => {
+    console.log("Puntuaciones actualizadas:", data);
+    activePlayers = data.players || [];
+    updatePlayersList();
+  });
+
+  socket.on("gameWinner", (data) => {
+    console.log("Ganador del juego:", data);
+    navigateTo("/screen2", {
+      winner: data.winner,
+      players: data.players,
+    });
+  });
+
+  socket.on("scoresReset", (data) => {
+    console.log("Puntuaciones reiniciadas");
+    activePlayers = data.players || [];
+    updatePlayersList();
+  });
+
   updatePlayersList();
 }
 
@@ -50,6 +70,8 @@ function updatePlayersList() {
           <div class="player-number">#${index + 1}</div>
           <div class="player-info">
             <div class="player-name">${player.nickname || "Jugador"}</div>
+            <div class="player-score">Puntuación: ${player.score || 0}</div>
+            ${player.role ? `<div class="player-role">Rol: ${player.role}</div>` : ""}
           </div>
         </div>
       `

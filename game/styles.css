@@ -285,3 +285,121 @@ button:active {
     transform: translateY(0);
   }
 }
+
+/* Score display styling */
+#score-display {
+  margin: 1rem 0;
+  padding: 0.75rem 1.5rem;
+  background: rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-radius: 12px;
+  color: #667eea;
+  font-weight: 700;
+  font-size: 1.5rem;
+  animation: fadeInScale 1s ease-out;
+}
+
+/* Leaderboard styling */
+#leaderboard {
+  width: 100%;
+  margin-top: 2rem;
+  padding: 2rem;
+  background: rgba(20, 20, 30, 0.6);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#leaderboard h3 {
+  text-align: center;
+  color: #667eea;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.button-group button {
+  margin: 0;
+}
+
+#sort-alphabetically-btn {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+}
+
+#sort-alphabetically-btn:hover {
+  box-shadow: 0 6px 20px rgba(240, 147, 251, 0.6);
+}
+
+#players-ranking {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.player-rank {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: rgba(30, 30, 45, 0.6);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  animation: fadeInSlide 0.5s ease-out;
+}
+
+.player-rank:hover {
+  transform: translateX(5px);
+  border-color: rgba(102, 126, 234, 0.4);
+  background: rgba(30, 30, 45, 0.8);
+}
+
+.player-rank .rank {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #667eea;
+  margin-right: 1rem;
+  min-width: 2.5rem;
+}
+
+.player-rank .name {
+  flex: 1;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #e8e8e8;
+}
+
+.player-rank .score {
+  font-size: 1.1rem;
+  color: #f093fb;
+  font-weight: 600;
+}
+
+/* Winner announcement */
+#winner-announcement {
+  color: #fbbf24;
+  text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+  animation: textGlitch 2s ease-in-out, fadeInScale 1.5s ease-out;
+}
+
+@media (max-width: 768px) {
+  .player-rank {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .player-rank .rank {
+    margin-right: 0;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+}

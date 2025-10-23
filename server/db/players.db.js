@@ -21,7 +21,7 @@ const getAllPlayers = () => {
  * @returns {Object} The created player
  */
 const addPlayer = (nickname, socketId) => {
-  const newPlayer = { id: socketId, nickname };
+  const newPlayer = { id: socketId, nickname, score: 0 };
   players.push(newPlayer);
   return newPlayer;
 };
@@ -67,6 +67,31 @@ const getGameData = () => {
 };
 
 /**
+ * Update player score
+ * @param {string} socketId - Player's socket ID
+ * @param {number} scoreChange - Points to add or subtract
+ * @returns {Object|null} Updated player object or null if not found
+ */
+const updatePlayerScore = (socketId, scoreChange) => {
+  const player = findPlayerById(socketId);
+  if (player) {
+    player.score = (player.score || 0) + scoreChange;
+    return player;
+  }
+  return null;
+};
+
+/**
+ * Reset all player scores
+ * @returns {void}
+ */
+const resetScores = () => {
+  players.forEach((player) => {
+    player.score = 0;
+  });
+};
+
+/**
  * Reset game data
  * @returns {void}
  */
@@ -82,4 +107,6 @@ module.exports = {
   findPlayersByRole,
   getGameData,
   resetGame,
+  updatePlayerScore,
+  resetScores,
 };

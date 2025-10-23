@@ -31,4 +31,27 @@ function navigateTo(path, data) {
   renderRoute(route);
 }
 
-export { navigateTo, socket };
+async function makeRequest(url, method, body) {
+  try {
+    const BASE_URL = "http://localhost:5050";
+    let response = await fetch(`${BASE_URL}${url}`, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("API request failed:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export { navigateTo, socket, makeRequest };

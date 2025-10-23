@@ -30,7 +30,11 @@ export default function renderLobbyScreen(data) {
   });
 
   // Keep the socket.on listener for game start event
-  socket.on("startGame", (role) => {
-    navigateTo("/game", { nickname: data.nickname, role });
+  socket.on("startGame", (gameData) => {
+    navigateTo("/game", {
+      nickname: data.nickname,
+      role: gameData.role || gameData,
+      score: gameData.score || 0,
+    });
   });
 }
